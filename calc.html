@@ -8,11 +8,15 @@
         body{
             background-color: aqua;
         }
+.operators{
+    padding-left: 500px;
+}
 
 
 
 
 .sign{
+   
     display: flex;
     background-color: black;
     text-align: center;
@@ -53,6 +57,7 @@
     text-align: center;
     width: 280px;
     padding: 10px 20px;
+     border-radius: 0px 0px 20px 20px;
 }
 .specials-ops{
     display: flex;
@@ -139,6 +144,23 @@ button{
     color:white;
 }
 
+/* textarea{
+    resize: none;
+    width: 314px;
+} */
+
+input{
+    width: 316px;
+    height: 70px;
+    background-color: black;
+    border: none;
+    font-size: 60px;
+     border-radius: 20px 20px 0px 0px;
+}
+
+input::placeholder {
+    padding-left: 250px;
+}
 
 
 
@@ -146,7 +168,11 @@ button{
     </style>
 </head>
 <body>
+<!-- 
+    <textarea name="" id="" placeholder="0"></textarea> -->
+   
     <section class="operators">
+    <input type="text" placeholder="0">
         <div class="sign">
             <div class="specials-ops">
                 <button>AC</button>
