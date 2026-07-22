@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleek Modern Calculator</title>
+    <style>
+        body {
+            background-color: aqua;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: white;
+            user-select: none;
+        }
+
+        .calculator-container {
+            background-color: #000000;
+            border-radius: 30px;
+            padding: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            border: 1px solid #1e293b;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 320px;
+        }
+
+        input#display {
+            width: 100%;
+            height: 80px;
+            background-color: transparent;
+            color: #ffffff;
+            border: none;
+            font-size: 54px;
+            text-align: right;
+            padding: 0 10px;
+            box-sizing: border-box;
+            font-weight: 300;
+            outline: none;
+        }
+
+        input#display::placeholder {
+            color: #555555;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        button {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: none;
+            font-size: 24px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Number button styling */
+        .btn-number {
+            background-color: #27272a;
+            color: #ffffff;
+        }
+
+        .btn-number:hover {
+            background-color: #3f3f46;
+        }
+
+        .btn-number:active {
+            transform: scale(0.92);
+        }
+
+        /* Special operators styling (AC, DEL, %) */
+        .btn-special {
+            background-color: #a1a1aa;
+            color: #000000;
+        }
+
+        .btn-special:hover {
+            background-color: #d4d4d8;
+        }
+
+        .btn-special:active {
+            transform: scale(0.92);
+        }
+
+        /* Main operators styling (+, -, *, /, =) */
+        .btn-operator {
+            background-color: #f97316;
+            color: #ffffff;
+        }
+
+        .btn-operator:hover {
+            background-color: #fb923c;
+        }
+
+        .btn-operator:active {
+            transform: scale(0.92);
+        }
+
+        /* Active state for operator currently in use */
+        .btn-operator.active {
+            background-color: #ffffff;
+            color: #f97316;
+        }
+
+        /* Double width button (Zero) */
+        .btn-zero {
+            width: 140px;
+            border-radius: 32px;
+            justify-content: flex-start;
+            padding-left: 24px;
+        }
+    </style>
+</head>
+<body>
+   
+    <div class="calculator-container">
+        <!-- Calculator Display Screen -->
+        <input type="text" id="display" placeholder="0" readonly>
+        
+        <!-- Row 1: Specials and Division -->
+        <div class="row">
+            <button class="btn-special" onclick="handleClear()">AC</button>
+            <button class="btn-special" onclick="handleDelete()">DEL</button>
+            <button class="btn-special" onclick="handleOperator('%')">%</button>
+            <button class="btn-operator" onclick="handleOperator('/')">/</button>
+        </div>
+
+        <!-- Row 2: 7, 8, 9, Multiply -->
+        <div class="row">
+            <button class="btn-number" onclick="handleNumber('7')">7</button>
+            <button class="btn-number" onclick="handleNumber('8')">8</button>
+            <button class="btn-number" onclick="handleNumber('9')">9</button>
+            <button class="btn-operator" onclick="handleOperator('*')">*</button>
+        </div>
+
+        <!-- Row 3: 4, 5, 6, Subtract -->
+        <div class="row">
+            <button class="btn-number" onclick="handleNumber('4')">4</button>
+            <button class="btn-number" onclick="handleNumber('5')">5</button>
+            <button class="btn-number" onclick="handleNumber('6')">6</button>
+            <button class="btn-operator" onclick="handleOperator('-')">-</button>
+        </div>
+
+        <!-- Row 4: 1, 2, 3, Add -->
+        <div class="row">
+            <button class="btn-number" onclick="handleNumber('1')">1</button>
+            <button class="btn-number" onclick="handleNumber('2')">2</button>
+            <button class="btn-number" onclick="handleNumber('3')">3</button>
+            <button class="btn-operator" onclick="handleOperator('+')">+</button>
+        </div>
+
+        <!-- Row 5: 0, Dot, Equals -->
+        <div class="row">
+            <button class="btn-number btn-zero" onclick="handleNumber('0')">0</button>
+            <button class="btn-number" onclick="handleNumber('.')">.</button>
+            <button class="btn-operator" onclick="handleCalculate()">=</button>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+        let currentInput = '';
+        let previousInput = '';
+        let activeOperator = null;
+        let shouldClearOnNextInput = false;
+
+        function updateDisplay(val) {
+            display.value = val || '0';
+            // Scale font size down if length exceeds 8 digits to prevent overflow
+            if (display.value.length > 8) {
+                display.style.fontSize = '36px';
+            } else if (display.value.length > 12) {
+                display.style.fontSize = '24px';
+            } else {
+                display.style.fontSize = '54px';
+            }
+        }
+
+        function handleNumber(num) {
+            if (shouldClearOnNextInput) {
+                currentInput = '';
+                shouldClearOnNextInput = false;
+            }
+            
+            // Limit length of inputs
+            if (currentInput.length > 14) return;
+            
+            // Prevent multiple decimals
+            if (num === '.' && currentInput.includes('.')) return;
+            
+            if (currentInput === '' && num === '.') {
+                currentInput = '0.';
+            } else {
+                currentInput += num;
+            }
+            
+            updateDisplay(currentInput);
+        }
+
+        function handleClear() {
+            currentInput = '';
+            previousInput = '';
+            activeOperator = null;
+            shouldClearOnNextInput = false;
+            clearActiveOperatorStyles();
+            updateDisplay('');
+        }
+
+        function handleDelete() {
+            currentInput = currentInput.slice(0, -1);
+            updateDisplay(currentInput);
+        }
+
+        function handleOperator(op) {
+            clearActiveOperatorStyles();
+
+            // Set active class on the clicked operator button
+            const buttons = document.querySelectorAll('.btn-operator');
+            buttons.forEach(btn => {
+                if (btn.textContent === op) {
+                    btn.classList.add('active');
+                }
+            });
+
+            if (currentInput === '') {
+                if (previousInput !== '') {
+                    activeOperator = op;
+                }
+                return;
+            }
+
+            if (previousInput !== '' && activeOperator) {
+                calculateIntermediate();
+            } else {
+                previousInput = currentInput;
+            }
+
+            activeOperator = op;
+            shouldClearOnNextInput = true;
+        }
+
+        function calculateIntermediate() {
+            if (previousInput === '' || currentInput === '' || !activeOperator) return;
+
+            const val1 = parseFloat(previousInput);
+            const val2 = parseFloat(currentInput);
+            let res = 0;
+
+            switch (activeOperator) {
+                case '+': res = val1 + val2; break;
+                case '-': res = val1 - val2; break;
+                case '*': res = val1 * val2; break;
+                case '/': 
+                    if (val2 === 0) {
+                        res = 'Error';
+                    } else {
+                        res = val1 / val2;
+                    }
+                    break;
+                case '%': res = (val1 / 100) * val2; break;
+            }
+
+            if (res === 'Error') {
+                handleClear();
+                updateDisplay('Error');
+                return;
+            }
+
+            // Correct floating point precision issues (e.g., 0.1 + 0.2 = 0.3)
+            if (typeof res === 'number') {
+                res = parseFloat(res.toFixed(10));
+            }
+
+            previousInput = String(res);
+            updateDisplay(previousInput);
+            currentInput = '';
+        }
+
+        function handleCalculate() {
+            if (previousInput === '' || currentInput === '' || !activeOperator) return;
+
+            calculateIntermediate();
+            clearActiveOperatorStyles();
+            
+            currentInput = previousInput;
+            previousInput = '';
+            activeOperator = null;
+            shouldClearOnNextInput = true;
+        }
+
+        function clearActiveOperatorStyles() {
+            const buttons = document.querySelectorAll('.btn-operator');
+            buttons.forEach(btn => btn.classList.remove('active'));
+        }
+    </script>
+</body>
+</html>
