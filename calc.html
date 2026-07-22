@@ -4,47 +4,199 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>calculator</title>
+    <style>
+        body{
+            background-color: aqua;
+        }
+
+
+
+
+.sign{
+    display: flex;
+    background-color: black;
+    text-align: center;
+    width: 280px;
+    gap: 7px;
+    padding: 10px 20px;
+}
+
+.sign1{
+    display: flex;
+     gap: 7px;
+    background-color: black;
+    text-align: center;
+    width: 280px;
+    padding: 10px 20px;
+  
+}
+.sign2{
+    display: flex;
+     gap: 7px;
+    background-color: black;
+    text-align: center;
+    width: 280px;
+    padding: 10px 20px;
+}
+.sign3{
+    display: flex;
+     gap: 7px;
+    background-color: black;
+    text-align: center;
+    width: 280px;
+    padding: 10px 20px;
+}
+.sign4{
+    display: flex;
+     gap: 7px;
+    background-color: black;
+    text-align: center;
+    width: 280px;
+    padding: 10px 20px;
+}
+.specials-ops{
+    display: flex;
+    gap: 8px;
+    color: grey;
+    padding: 3px;
+}
+.specials-ops button{
+    background-color: grey;
+}
+
+.main-ops button{
+    background-color: #f79A09;
+    color: white;
+}
+
+
+
+.num1{
+    display: flex;
+    gap: 8px;
+    color: grey;
+    padding: 3px;
+}
+
+.num1 button{
+    background-color: #313131;
+    color: white;
+    font-size: 22px;
+}
+
+.num2{
+    display: flex;
+    gap: 8px;
+    color: grey;
+    padding: 3px;
+}
+
+.num2 button{
+    background-color: #313131;
+    color: white;
+    font-size: 22px;
+}
+
+.num3{
+    display: flex;
+    gap: 8px;
+    color: grey;
+    padding: 3px;
+}
+
+.num3 button{
+    background-color: #313131;
+    color: white;
+    font-size: 22px;
+}
+
+.num4{
+    display: flex;
+    gap: 8px;
+    color: grey;
+    padding: 3px;
+}
+.num4 button{
+    background-color: #313131;
+    color: white;
+    font-size: 22px;
+}
+
+
+.num4>.zero{
+    width: 130px;
+    border-radius: 30px;
+}
+
+button{
+    width:60px;
+    height:60px ;
+    border-radius: 50%;
+
+}
+
+.main-ops{
+    color:white;
+}
+
+
+
+
+
+    </style>
 </head>
 <body>
-
     <section class="operators">
-        <div class="specials-ops">
-            <button>AC</button>
-            <button>DEL</button>
-            <button>%</button>
+        <div class="sign">
+            <div class="specials-ops">
+                <button>AC</button>
+                <button>DEL</button>
+                <button>%</button>
+            </div>
             <div class="main-ops">
                 <button>/</button>
             </div>
         </div>
-        <div class="num1">
-            <button>7</button>
-            <button>8</button>
-            <button>9</button>
+
+        <div class="sign1">
+            <div class="num1">
+                <button>7</button>
+                <button>8</button>
+                <button>9</button>
+            </div>
             <div class="main-ops">
                 <button>*</button>
             </div>
         </div>
 
-        <div class="num2">
-            <button>4</button>
-            <button>5</button>
-            <button>6</button>
+
+        <div class="sign2">
+            <div class="num2">
+                <button>4</button>
+                <button>5</button>
+                <button>6</button>
+            </div>
             <div class="main-ops">
                 <button>-</button>
             </div>
         </div>
 
-        <div class="num3">
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
+        <div class="sign3">
+            <div class="num3">
+                <button>1</button>
+                <button>2</button>
+                <button>3</button>
+            </div>
             <div class="main-ops">
                 <button>+</button>
             </div>
         </div>
-        <div class="num4">
-            <button>0</button>
-            <button>.</button>
+
+        <div class="sign4">
+            <div class="num4">
+                <button class="zero">0</button>
+                <button>.</button>
+            </div>
             <div class="main-ops">
                 <button>=</button>
             </div>
